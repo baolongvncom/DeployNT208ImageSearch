@@ -7,7 +7,7 @@ from pymongo import MongoClient
 import requests
 
 # Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017")
+client = MongoClient("mongodb+srv://baolongvncom:baolong123456@cluster0.0vgsjr7.mongodb.net")
 db = client["WatchShop"]
 collection = db["watches"]
 
@@ -21,7 +21,7 @@ def train():
         try:
             img_path = watch['image']
             print(img_path)  # e.g., ./static/img/xxx.png
-            feature = fe.extract(img=Image.open(requests.get("http://localhost:4000" + img_path, stream=True).raw))
+            feature = fe.extract(img=Image.open(requests.get("https://deploynt208backend.onrender.com" + img_path, stream=True).raw))
 
             # Tạo đường dẫn đến thư mục static/feature
             feature_dir = Path("static/feature")
@@ -51,7 +51,7 @@ def train_image(image_filename):
 
     try:
         fe = FeatureExtractor()
-        feature = fe.extract(img=Image.open(requests.get("http://localhost:4000" + image_path, stream=True).raw))
+        feature = fe.extract(img=Image.open(requests.get("https://deploynt208backend.onrender.com" + image_path, stream=True).raw))
         feature_dir = Path("static/feature")
         feature_path = feature_dir / (image_filename.split('.')[0] + ".npy")
         feature_dir.mkdir(parents=True, exist_ok=True)

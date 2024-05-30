@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017")
+client = MongoClient("mongodb+srv://baolongvncom:baolong123456@cluster0.0vgsjr7.mongodb.net")
 db = client["WatchShop"]
 collection = db["watches"]
 
@@ -23,7 +23,7 @@ features = []
 img_ids = []
 for feature_path in Path("static/feature").glob("*.npy"):
     features.append(np.load(feature_path))
-    img_id = "/images/" + feature_path.stem + ".png"
+    img_id = "https://deploynt208backend.onrender.com/images/" + feature_path.stem + ".png"
 
     watch = collection.find_one({"image": img_id})
 
@@ -45,7 +45,7 @@ def retrain():
     if train_result["status"] == "success":
         feature_path = train_result["feature_path"]
 
-        img_id = "/images/" + image_filename
+        img_id = "https://deploynt208backend.onrender.com/images/" + image_filename
 
         print(img_id)
 
@@ -72,7 +72,7 @@ def index():
 
     print(request.form)
     image_filename = request.form["query_img"]
-    image_url = "http://localhost:4000/imagesearchstorage/" + image_filename
+    image_url = "https://deploynt208backend.onrender.com/imagesearchstorage/" + image_filename
 
     # Fetch image from URL
     img = Image.open(requests.get(image_url, stream=True).raw)
@@ -119,4 +119,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run(debug=False, host='0.0.0.0')
